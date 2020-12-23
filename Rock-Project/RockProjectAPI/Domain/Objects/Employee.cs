@@ -34,9 +34,14 @@ namespace RockProjectAPI.Domain.Objects
         [JsonPropertyName("salario_bruto")]
         public string SalarioBruto { get; set; }
 
-        public Employee()
+        public Employee(string id, string occupationArea, string name, string cargo, string admissionalDate, string salary)
         {
-
+            Matricula = id;
+            Area = occupationArea;
+            Nome = name;
+            Cargo = cargo;
+            DataAdmissao = admissionalDate;
+            SalarioBruto = salary;
         }
 
     }

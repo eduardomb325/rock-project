@@ -26,7 +26,7 @@ namespace RockProjectAPI.Domain.Repositories
             {
                 _logger.LogInformation("Repository: GetEmployees - Start");
 
-                List<Employee> employeeList = _context.Funcionarios.ToList();
+                List<Employee> employeeList = _context.Employees.ToList();
 
                 _logger.LogInformation("Repository: GetEmployees - Finish - Employees founded: ", employeeList.Count());
 
@@ -45,7 +45,7 @@ namespace RockProjectAPI.Domain.Repositories
             {
                 _logger.LogInformation("Repository: SaveEmployees - Start");
 
-                _context.Funcionarios.AddRange(employees);
+                _context.Employees.AddRange(employees);
                 _context.SaveChanges();
 
                 _logger.LogInformation("Repository: SaveEmployees - Finish - Employees saved");

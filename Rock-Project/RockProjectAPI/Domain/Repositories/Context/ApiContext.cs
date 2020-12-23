@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 using RockProjectAPI.Domain.Objects;
 using System;
 using System.Collections.Generic;
@@ -13,6 +14,28 @@ namespace RockProjectAPI.Domain.Repositories.Context
         {
         }
 
-        public DbSet<Employee> Funcionarios { get; set; }
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            builder.Entity<OccupationAreaWeight>().Property(x => x.Id).ValueGeneratedOnAdd();
+
+            builder.Entity<SalaryWeight>().Property(x => x.Id).ValueGeneratedOnAdd();
+            builder
+                .Entity<SalaryWeight>()
+                .Property(x => x.OccupationAreaException)
+                .HasConversion(
+                    x => JsonConvert.SerializeObject(x),
+                    x => JsonConvert.DeserializeObject<List<string>>(x)
+                );
+
+            builder.Entity<WorkYearsWeight>().Property(x => x.Id).ValueGeneratedOnAdd();
+        }
+
+        public DbSet<Employee> Employees { get; set; }
+        
+        public DbSet<OccupationAreaWeight> OccupationAreaWeights { get; set; }
+
+        public DbSet<SalaryWeight> SalaryWeights { get; set; }
+
+        public DbSet<WorkYearsWeight> WorkYearsWeights { get; set; }
     }
 }
