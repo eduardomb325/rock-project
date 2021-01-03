@@ -9,28 +9,25 @@ using System.Collections.Generic;
 namespace RockProjectAPI.Controllers
 {
     [ApiController]
-    [Route("/employee")]
-    public class EmployeeController : ControllerBase
+    [Route("/weight/occupation-area")]
+    public class OccupationAreaWeightController : Controller
     {
-        private readonly IEmployeeService _employeeService;
-        private readonly ILogger<EmployeeController> _logger;
+        private readonly IWeightService<OccupationAreaWeight> _weightService;
+        private readonly ILogger<OccupationAreaWeightController> _logger;
 
-        public EmployeeController(
-            ILogger<EmployeeController> logger,
-            IEmployeeService employeeService
-        )
+        public OccupationAreaWeightController(ILogger<OccupationAreaWeightController> logger, IWeightService<OccupationAreaWeight> weightService)
         {
-            _employeeService = employeeService;
+            _weightService = weightService;
             _logger = logger;
         }
 
         [HttpGet]
-        [Route("list")]
-        public IActionResult GetListEmployeesController()
+        [Route("get")]
+        public IActionResult GetListOccupationAreaWeightController()
         {
             try
             {
-                List<Employee> result = _employeeService.GetEmployeesService();
+                List<OccupationAreaWeight> result = _weightService.GetWeightList();
 
                 return Ok(result);
             }
@@ -42,13 +39,14 @@ namespace RockProjectAPI.Controllers
 
         [HttpPost]
         [Route("save/list")]
-        public IActionResult SaveListEmployeesController([FromBody] List<Employee> employeeList)
+        public IActionResult SaveListOccupationAreaWeightController(List<OccupationAreaWeight> occupationAreaWeightList)
         {
             try
             {
-                List<Employee> result = _employeeService.SaveEmployeesService(employeeList);
+                List<OccupationAreaWeight> result = _weightService.SaveWeightList(occupationAreaWeightList);
 
                 return Ok(result);
+
             }
             catch (Exception)
             {

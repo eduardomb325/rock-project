@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using RockProjectAPI.Domain.Objects.Interfaces;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
 using System.Text.Json.Serialization;
-using System.Threading.Tasks;
 
 namespace RockProjectAPI.Domain.Objects
 {
-    public class Employee
+    public class Employee : IEmployeeBase
     {
         [Key]
         [Required]
@@ -44,5 +41,9 @@ namespace RockProjectAPI.Domain.Objects
             SalarioBruto = salary;
         }
 
+        public Employee()
+        {
+
+        }
     }
 }

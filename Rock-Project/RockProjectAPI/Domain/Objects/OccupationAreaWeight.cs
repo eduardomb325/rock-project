@@ -14,15 +14,15 @@ namespace RockProjectAPI.Domain.Objects
         public string OccupationArea { get; set; }
         public int Weight { get; set; }
 
+        public OccupationAreaWeight()
+        {
+
+        }
+
         public OccupationAreaWeight(string occupationArea, int weight)
         {
             OccupationArea = occupationArea;
             Weight = weight;
-        }
-
-        public OccupationAreaWeight()
-        {
-
         }
     }
 }

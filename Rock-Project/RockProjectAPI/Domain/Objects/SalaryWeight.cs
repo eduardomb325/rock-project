@@ -11,12 +11,17 @@ namespace RockProjectAPI.Domain.Objects
     {
         [Key]
         public int Id { get; set; }
-        public double SalaryMin { get; set; }
-        public double SalaryMax { get; set; }
+        public int SalaryMin { get; set; }
+        public int SalaryMax { get; set; }
         public int Weight { get; set; }
         public List<string> OccupationAreaException { get; set; } = new List<string>();
 
-        public SalaryWeight(double salaryMin, double salaryMax, int weight, List<string> occupationAreaException)
+        public SalaryWeight()
+        {
+
+        }
+
+        public SalaryWeight(int salaryMin, int salaryMax, int weight, List<string> occupationAreaException)
         {
             SalaryMin = salaryMin;
             SalaryMax = salaryMax;
@@ -24,9 +29,19 @@ namespace RockProjectAPI.Domain.Objects
             OccupationAreaException = occupationAreaException;
         }
 
-        public SalaryWeight()
+        public bool IsSalaryIsInThisWeight(double baseSalary, double salary, string occupation)
         {
+            bool isSalaryIsThisWeight = false;
 
+            double salaryMin = baseSalary * SalaryMin;
+            double salaryMax = baseSalary * SalaryMax;
+
+            if (OccupationAreaException.Contains(occupation) || (salary >= salaryMin && salary <= salaryMax))
+            {
+                isSalaryIsThisWeight = true;
+            }
+
+            return isSalaryIsThisWeight;
         }
     }
 }

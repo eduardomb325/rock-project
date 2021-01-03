@@ -15,6 +15,11 @@ namespace RockProjectAPI.Domain.Objects
         public int YearMax { get; set; }
         public int Weight { get; set; }
 
+        public WorkYearsWeight()
+        {
+
+        }
+
         public WorkYearsWeight(int yearMin, int yearMax, int weight)
         {
             YearMin = yearMin;
@@ -22,9 +27,16 @@ namespace RockProjectAPI.Domain.Objects
             Weight = weight;
         }
 
-        public WorkYearsWeight()
+        public bool IsYearIsInThisWeight(double year)
         {
+            bool isYearIsInThisWeight = false;
 
+            if (year >= YearMin && year <= YearMax)
+            {
+                isYearIsInThisWeight = true;
+            }
+
+            return isYearIsInThisWeight;
         }
     }
 }

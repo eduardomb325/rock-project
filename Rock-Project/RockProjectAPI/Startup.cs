@@ -5,6 +5,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using RockProjectAPI.Domain.Objects;
 using RockProjectAPI.Domain.Repositories;
 using RockProjectAPI.Domain.Repositories.Context;
 using RockProjectAPI.Domain.Repositories.Interfaces;
@@ -33,8 +34,12 @@ namespace RockProjectAPI
             //Repositories
             services.AddScoped<IEmployeeRepository, EmployeeRepository>();
 
+            services.AddScoped(typeof(IWeightRepository<>), typeof(WeightRepository<>));
+
             //Services
             services.AddScoped<IEmployeeService, EmployeeService>();
+
+            services.AddScoped(typeof(IWeightService<>), typeof(WeightService<>));
 
             //Adding Swagger
             services.AddSwaggerGen(config =>
@@ -70,7 +75,7 @@ namespace RockProjectAPI
             //Use Swagger JSON (like swagger, version, swagger.json)
             app.UseSwaggerUI(config =>
                 {
-                    config.SwaggerEndpoint("/swagger/v1/swagger.json", Configuration["ApplicationName"]);
+                    config.SwaggerEndpoint(Configuration["SwaggerUrl"], Configuration["ApplicationName"]);
                 }
             );
 
