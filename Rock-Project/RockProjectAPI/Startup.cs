@@ -39,6 +39,8 @@ namespace RockProjectAPI
             //Services
             services.AddScoped<IEmployeeService, EmployeeService>();
 
+            services.AddScoped<IProfitService, ProfitService>();
+
             services.AddScoped(typeof(IWeightService<>), typeof(WeightService<>));
 
             //Adding Swagger

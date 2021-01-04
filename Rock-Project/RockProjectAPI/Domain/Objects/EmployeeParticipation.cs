@@ -1,29 +1,36 @@
 ﻿using RockProjectAPI.Domain.Objects.Interfaces;
+using System.Globalization;
 using System.Text.Json.Serialization;
 
 namespace RockProjectAPI.Domain.Objects
 {
-    public class EmployeeParticipation : IEmployeeBase
+    public class EmployeeParticipation : EmployeeBase
     {
-        [JsonPropertyName("matricula")]
-        public string Matricula { get; set; }
-
-        [JsonPropertyName("nome")]
-        public string Nome { get; set; }
-
         [JsonPropertyName("valor_da_participacao")]
         public string ValorParticipacao { get; set; }
 
-        public EmployeeParticipation(string matricula, string nome, string valorParticipacao)
+        public EmployeeParticipation(Employee employee, int occupationAreaWeight, int salaryWeight, int workYearsWeight)
         {
-            Matricula = matricula;
-            Nome = nome;
-            ValorParticipacao = valorParticipacao;
+            Id = employee.Id;
+            Name = employee.Name;
+            ValorParticipacao = CalculateParticipationValue(employee.Salary, occupationAreaWeight, salaryWeight, workYearsWeight);
         }
 
         public EmployeeParticipation()
         {
 
+        }
+
+        public string CalculateParticipationValue(string salary, int occupationAreaWeight, int salaryWeight, int workYearsWeight)
+        {
+            double convertedSalary = double.Parse(salary);
+            double admissionTimeCalculate = convertedSalary * workYearsWeight;
+            double occupationAreaCalculate = convertedSalary * occupationAreaWeight;
+            double salaryCalculate = (admissionTimeCalculate + occupationAreaCalculate) / salaryWeight;
+
+            double participationValue = salaryCalculate * 12;
+
+            return string.Format(CultureInfo.GetCultureInfo("pt-BR"), "{0:C}", participationValue);
         }
     }
 }
