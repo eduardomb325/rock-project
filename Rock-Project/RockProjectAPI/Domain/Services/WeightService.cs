@@ -1,10 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
 using RockProjectAPI.Domain.Repositories.Interfaces;
 using RockProjectAPI.Domain.Services.Interfaces;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace RockProjectAPI.Domain.Services
 {
@@ -28,7 +25,7 @@ namespace RockProjectAPI.Domain.Services
 
             _logger.LogInformation("Service: WeightService - Method: AddWeight - Finish - Saved weights: " + response.ToString());
 
-            return response; 
+            return response;
         }
 
         public List<T> GetWeightList()

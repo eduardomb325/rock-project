@@ -1,14 +1,12 @@
 ﻿using RockProjectAPI.Domain.Objects;
-using System;
+using RockProjectAPI.Domain.Objects.DTOs;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace RockProjectAPI.Domain.Services.Interfaces
 {
     public interface IEmployeeService
     {
         List<Employee> GetEmployeesService();
-        List<Employee> SaveEmployeesService(List<Employee> employees);
+        EmployeeRegisterDTO SaveEmployeesService(List<Employee> employees);
     }
 }

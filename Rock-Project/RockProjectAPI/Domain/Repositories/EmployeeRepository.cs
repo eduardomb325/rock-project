@@ -5,7 +5,6 @@ using RockProjectAPI.Domain.Repositories.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace RockProjectAPI.Domain.Repositories
 {
@@ -34,7 +33,7 @@ namespace RockProjectAPI.Domain.Repositories
             }
             catch (Exception ex)
             {
-                _logger.LogError("Repository: GetEmployees - Error: "+ ex.Message);
+                _logger.LogError("Repository: GetEmployees - Error: " + ex.Message);
                 throw ex;
             }
         }
@@ -54,7 +53,7 @@ namespace RockProjectAPI.Domain.Repositories
             }
             catch (Exception ex)
             {
-                _logger.LogError("Repository: SaveEmployees - Error: "+ ex.Message);
+                _logger.LogError("Repository: SaveEmployees - Error: " + ex.Message);
                 throw ex;
             }
         }

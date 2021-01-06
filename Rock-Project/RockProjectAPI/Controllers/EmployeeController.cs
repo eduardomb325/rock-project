@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using RockProjectAPI.Domain.Objects;
-using RockProjectAPI.Domain.Repositories.Interfaces;
+using RockProjectAPI.Domain.Objects.DTOs;
 using RockProjectAPI.Domain.Services.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -14,7 +14,7 @@ namespace RockProjectAPI.Controllers
     public class EmployeeController : ControllerBase
     {
         private readonly IEmployeeService _employeeService;
-     
+
         private readonly ILogger<EmployeeController> _logger;
 
         public EmployeeController(
@@ -48,7 +48,7 @@ namespace RockProjectAPI.Controllers
         {
             try
             {
-                List<Employee> result = _employeeService.SaveEmployeesService(employeeList);
+                EmployeeRegisterDTO result = _employeeService.SaveEmployeesService(employeeList);
 
                 return Ok(result);
             }

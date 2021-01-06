@@ -1,6 +1,5 @@
 ﻿using RockProjectAPI.Domain.Objects;
 using RockProjectAPI.Domain.Repositories.Interfaces;
-using System;
 using System.Collections.Generic;
 
 namespace RockProjectAPI.Domain.Repositories.Context
@@ -40,7 +39,7 @@ namespace RockProjectAPI.Domain.Repositories.Context
         {
             List<SalaryWeight> salaryWeightList = new List<SalaryWeight>();
 
-            salaryWeightList.Add(new SalaryWeight { Id = 1, SalaryMin = 0, SalaryMax = 1, OccupationPositionException = new List<string> {"Estagiário"}, Weight = 1 });
+            salaryWeightList.Add(new SalaryWeight { Id = 1, SalaryMin = 0, SalaryMax = 1, OccupationPositionException = new List<string> { "Estagiário" }, Weight = 1 });
             salaryWeightList.Add(new SalaryWeight { Id = 2, SalaryMin = 1, SalaryMax = 3, Weight = 2 });
             salaryWeightList.Add(new SalaryWeight { Id = 3, SalaryMin = 3, SalaryMax = 5, Weight = 2 });
             salaryWeightList.Add(new SalaryWeight { Id = 4, SalaryMin = 5, SalaryMax = 8, Weight = 3 });

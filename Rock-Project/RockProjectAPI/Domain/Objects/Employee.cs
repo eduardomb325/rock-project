@@ -1,5 +1,4 @@
 ﻿using Microsoft.Extensions.Logging;
-using RockProjectAPI.Domain.Objects.Interfaces;
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
@@ -72,7 +71,13 @@ namespace RockProjectAPI.Domain.Objects
         {
             bool isValidEmployee = false;
 
-            if (IsValidSalary() && IsValidAdmissionDate())
+            if (IsValidSalary() 
+                    && IsValidAdmissionDate() 
+                    && !string.IsNullOrEmpty(Area)
+                    && !string.IsNullOrEmpty(Id)
+                    && !string.IsNullOrEmpty(Name)
+                    && !string.IsNullOrEmpty(Position)
+                )
             {
                 isValidEmployee = true;
             }

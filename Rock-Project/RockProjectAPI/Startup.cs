@@ -5,7 +5,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
-using RockProjectAPI.Domain.Objects;
 using RockProjectAPI.Domain.Repositories;
 using RockProjectAPI.Domain.Repositories.Context;
 using RockProjectAPI.Domain.Repositories.Interfaces;

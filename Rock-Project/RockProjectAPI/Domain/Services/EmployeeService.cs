@@ -1,11 +1,10 @@
 ﻿using Microsoft.Extensions.Logging;
 using RockProjectAPI.Domain.Objects;
+using RockProjectAPI.Domain.Objects.DTOs;
 using RockProjectAPI.Domain.Repositories.Interfaces;
 using RockProjectAPI.Domain.Services.Interfaces;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace RockProjectAPI.Domain.Services
 {
@@ -18,7 +17,7 @@ namespace RockProjectAPI.Domain.Services
             _employeeRepository = employeeRepository;
             _logger = logger;
         }
-        
+
         public List<Employee> GetEmployeesService()
         {
             _logger.LogInformation("Service: GetEmployeesService - Start");
@@ -30,15 +29,31 @@ namespace RockProjectAPI.Domain.Services
             return employeesList;
         }
 
-        public List<Employee> SaveEmployeesService(List<Employee> employees)
+        public EmployeeRegisterDTO SaveEmployeesService(List<Employee> employees)
         {
             _logger.LogInformation("Service: GetEmployeesService - Start - Employees received: ", employees.Count());
 
-            List<Employee> employeesList = _employeeRepository.SaveEmployees(employees);
+            EmployeeRegisterDTO employeeRegisterDTO = new EmployeeRegisterDTO();
 
-            _logger.LogInformation("Service: GetEmployeesService - Finish - Employees saved: ", employeesList.Count());
+            foreach(Employee employee in employees)
+            {
+               bool isValidEmployee = employee.IsValidEmployee();
 
-            return employeesList;
+                if (isValidEmployee)
+                {
+                    employeeRegisterDTO.EmployeesRegistered.Add(employee);
+                } else
+                {
+                    employeeRegisterDTO.EmployeesNotRegistered.Add(employee);
+                }
+            }
+
+
+            _employeeRepository.SaveEmployees(employeeRegisterDTO.EmployeesRegistered);
+
+            _logger.LogInformation("Service: GetEmployeesService - Finish - Employees saved: ", employeeRegisterDTO.EmployeesRegistered.Count());
+
+            return employeeRegisterDTO;
         }
     }
 }

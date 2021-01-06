@@ -6,7 +6,6 @@ using RockProjectAPI.Domain.Services.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace RockProjectAPI.Domain.Services
 {
@@ -60,7 +59,7 @@ namespace RockProjectAPI.Domain.Services
 
             List<EmployeeParticipation> participationList = new List<EmployeeParticipation>();
 
-            foreach(Employee employee in employeeList)
+            foreach (Employee employee in employeeList)
             {
                 DateTime employeeAdmission = DateTime.Parse(employee.AdmissionDate);
 
@@ -83,9 +82,9 @@ namespace RockProjectAPI.Domain.Services
                                                 .Weight;
 
                 EmployeeParticipation employeeParticipation = new EmployeeParticipation(
-                    employee, 
-                    occupationAreaWeight, 
-                    salaryWeight, 
+                    employee,
+                    occupationAreaWeight,
+                    salaryWeight,
                     workYearsWeight
                 );
 
