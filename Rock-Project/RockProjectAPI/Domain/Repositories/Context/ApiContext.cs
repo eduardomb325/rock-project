@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using RockProjectAPI.Domain.Objects;
+using RockProjectAPI.Domain.Repositories.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,9 +20,10 @@ namespace RockProjectAPI.Domain.Repositories.Context
             builder.Entity<OccupationAreaWeight>().Property(x => x.Id).ValueGeneratedOnAdd();
 
             builder.Entity<SalaryWeight>().Property(x => x.Id).ValueGeneratedOnAdd();
+
             builder
                 .Entity<SalaryWeight>()
-                .Property(x => x.OccupationAreaException)
+                .Property(x => x.OccupationPositionException)
                 .HasConversion(
                     x => JsonConvert.SerializeObject(x),
                     x => JsonConvert.DeserializeObject<List<string>>(x)

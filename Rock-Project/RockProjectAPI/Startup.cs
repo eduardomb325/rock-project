@@ -43,6 +43,8 @@ namespace RockProjectAPI
 
             services.AddScoped(typeof(IWeightService<>), typeof(WeightService<>));
 
+            services.AddScoped<IDataStarterGenerator, DataStarterGenerator>();
+
             //Adding Swagger
             services.AddSwaggerGen(config =>
                 {

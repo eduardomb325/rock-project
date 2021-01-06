@@ -10,17 +10,19 @@ namespace RockProjectAPI.Domain.Services
 {
     public class WeightService<T> : IWeightService<T> where T : class
     {
+        private readonly IDataStarterGenerator _dataStarterGenerator;
         private ILogger<WeightService<T>> _logger;
         private readonly IWeightRepository<T> _weightRepository;
 
-        public WeightService(ILogger<WeightService<T>> logger, IWeightRepository<T> weightRepository)
+        public WeightService(IDataStarterGenerator dataStarterGenerator, ILogger<WeightService<T>> logger, IWeightRepository<T> weightRepository)
         {
+            _dataStarterGenerator = dataStarterGenerator;
             _logger = logger;
             _weightRepository = weightRepository;
         }
         public List<T> SaveWeightList(List<T> weightList)
         {
-            _logger.LogInformation("Service: WeightService - Method: AddWeight - Start - Weights to Save: " + weightList.ToString());
+            _logger.LogInformation("Service: WeightService - Method: AddWeight - Start - Weights to Save: " + weightList);
 
             List<T> response = _weightRepository.SaveWeightList(weightList);
 
@@ -33,9 +35,16 @@ namespace RockProjectAPI.Domain.Services
         {
             _logger.LogInformation("Service: WeightService - Method: GetWeightList - Start");
 
+            int count = _weightRepository.CountWeightList();
+
+            if (count <= 0)
+            {
+                _dataStarterGenerator.InitializeWeightDb();
+            }
+
             List<T> response = _weightRepository.GetWeightList();
 
-            _logger.LogInformation("Service: WeightService - Method: GetWeightList - Finish - Items founded: " + response.Count());
+            _logger.LogInformation("Service: WeightService - Method: GetWeightList - Finish - Items founded: " + response.ToString());
 
             return response;
         }

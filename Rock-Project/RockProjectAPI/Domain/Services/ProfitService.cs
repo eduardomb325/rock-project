@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using RockProjectAPI.Domain.Objects;
 using RockProjectAPI.Domain.Repositories.Interfaces;
 using RockProjectAPI.Domain.Services.Interfaces;
@@ -15,34 +16,46 @@ namespace RockProjectAPI.Domain.Services
 
         private IEmployeeRepository _employeeRepository;
         private IConfiguration Configuration;
-        private IWeightRepository<OccupationAreaWeight> _occupationAreaWeightRepository;
-        private IWeightRepository<SalaryWeight> _salaryWeightRepository;
-        private IWeightRepository<WorkYearsWeight> _workYearsWeightRepository;
+        private ILogger<ProfitService> _logger;
+
+        private readonly IWeightService<OccupationAreaWeight> OccupationAreService;
+        private readonly IWeightService<SalaryWeight> SalaryWeightService;
+        private readonly IWeightService<WorkYearsWeight> WorkYearsWeightService;
 
         public ProfitService(
                 IEmployeeRepository employeeRepository,
-                IWeightRepository<OccupationAreaWeight> occupationAreaWeightRepository,
-                IWeightRepository<SalaryWeight> salaryWeightRepository,
-                IWeightRepository<WorkYearsWeight> workYearsWeightRepository
+                IConfiguration configuration,
+                ILogger<ProfitService> logger,
+                IWeightService<OccupationAreaWeight> occupationAreaWeightService,
+                IWeightService<SalaryWeight> salaryWeightRepositoryService,
+                IWeightService<WorkYearsWeight> workYearsWeightService
             )
         {
+            Configuration = configuration;
             MinimumSalary = Configuration["MinimumSalary"];
 
             _employeeRepository = employeeRepository;
-            _occupationAreaWeightRepository = occupationAreaWeightRepository;
-            _salaryWeightRepository = salaryWeightRepository;
-            _workYearsWeightRepository = workYearsWeightRepository;
+            _logger = logger;
+
+            OccupationAreService = occupationAreaWeightService;
+            SalaryWeightService = salaryWeightRepositoryService;
+            WorkYearsWeightService = workYearsWeightService;
         }
 
         public Profit GetProfit(double expectedProfit)
         {
+            _logger.LogInformation("Service: GetProfit - Start");
+
             List<Employee> employeeList = _employeeRepository.GetEmployees();
 
-            List<OccupationAreaWeight> occupationAreaWeightList = _occupationAreaWeightRepository.GetWeightList();
+            List<OccupationAreaWeight> occupationAreaWeightList = OccupationAreService.GetWeightList();
 
-            List<SalaryWeight> salaryWeightList = _salaryWeightRepository.GetWeightList();
+            List<SalaryWeight> salaryWeightList = SalaryWeightService
+                                                        .GetWeightList()
+                                                        .OrderBy(x => x.Id)
+                                                        .ToList();
 
-            List<WorkYearsWeight> workYearList = _workYearsWeightRepository.GetWeightList();
+            List<WorkYearsWeight> workYearList = WorkYearsWeightService.GetWeightList();
 
 
             List<EmployeeParticipation> participationList = new List<EmployeeParticipation>();
@@ -56,8 +69,18 @@ namespace RockProjectAPI.Domain.Services
                 double convertedMinimumSalary = double.Parse(MinimumSalary);
 
                 int occupationAreaWeight = occupationAreaWeightList.Find(x => x.OccupationArea.Equals(actuationArea)).Weight;
-                int salaryWeight = salaryWeightList.Find(x => x.IsSalaryIsInThisWeight(convertedMinimumSalary, convertedSalary, employee.Area);
-                int workYearsWeight = workYearList.Find(x => x.IsYearIsInThisWeight(employeeAdmission.Year).Equals(true)).Weight;
+
+                int salaryWeight = salaryWeightList
+                                        .Find(x => x
+                                                    .IsSalaryIsInThisWeight(convertedMinimumSalary, convertedSalary, employee.Position)
+                                                    .Equals(true)
+                                         )
+                                        .Weight;
+
+                int workYearsWeight = workYearList
+                                                .Find(x => x.IsYearIsInThisWeight(employeeAdmission.Year)
+                                                .Equals(true))
+                                                .Weight;
 
                 EmployeeParticipation employeeParticipation = new EmployeeParticipation(
                     employee, 
@@ -70,6 +93,8 @@ namespace RockProjectAPI.Domain.Services
             }
 
             Profit profit = new Profit(participationList, expectedProfit);
+
+            _logger.LogInformation("Service: GetProfit - Finish - Generated Profit: " + profit.ToString());
 
             return profit;
         }

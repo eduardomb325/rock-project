@@ -16,7 +16,7 @@ namespace RockProjectAPI.Domain.Objects
         public string ExpectedProfit { get; set; }
 
         [JsonPropertyName("total_de_funcionarios")]
-        public int EmployeesTotal { get; set; }
+        public string EmployeesTotal { get; set; }
 
         [JsonPropertyName("total_distribuido")]
         public string CalculatedProfit { get; set; }
@@ -39,8 +39,9 @@ namespace RockProjectAPI.Domain.Objects
         public string GetCalculatedProfit()
         {
             double response = 0;
+            int convertedEmployeesTotal = int.Parse(EmployeesTotal);
 
-            if (EmployeesTotal > 0)
+            if (convertedEmployeesTotal > 0)
             {
                 response = Participations.Sum(x => double.Parse(x.ValorParticipacao.Replace("R$ ", "")));
             }
@@ -48,9 +49,9 @@ namespace RockProjectAPI.Domain.Objects
             return TransformDoubleToBrazilianCulture(response);
         }
 
-        public int GetEmployeesTotal()
+        public string GetEmployeesTotal()
         {
-            return Participations.Count();
+            return Participations.Count().ToString();
         }
 
         public string CalculateBalance()

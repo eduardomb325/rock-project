@@ -28,13 +28,13 @@ namespace RockProjectAPI.Domain.Repositories
 
                 List<Employee> employeeList = _context.Employees.ToList();
 
-                _logger.LogInformation("Repository: GetEmployees - Finish - Employees founded: ", employeeList.Count());
+                _logger.LogInformation("Repository: GetEmployees - Finish - Employees founded: " + employeeList.Count().ToString());
 
                 return employeeList;
             }
             catch (Exception ex)
             {
-                _logger.LogError("Repository: GetEmployees - Error: ", ex.Message);
+                _logger.LogError("Repository: GetEmployees - Error: "+ ex.Message);
                 throw ex;
             }
         }
@@ -54,7 +54,7 @@ namespace RockProjectAPI.Domain.Repositories
             }
             catch (Exception ex)
             {
-                _logger.LogError("Repository: SaveEmployees - Error: ", ex.Message);
+                _logger.LogError("Repository: SaveEmployees - Error: "+ ex.Message);
                 throw ex;
             }
         }

@@ -24,5 +24,6 @@ namespace RockProjectAPI.Domain.Objects
             OccupationArea = occupationArea;
             Weight = weight;
         }
+
     }
 }

@@ -19,6 +19,16 @@ namespace RockProjectAPI.Domain.Repositories
             _logger = logger;
         }
 
+        public int CountWeightList()
+        {
+            _logger.LogInformation("Repository: CountWeightList - Start");
+
+            int count = _context.Set<T>().Count();
+
+            _logger.LogInformation("Repository: CountWeightList - Finish");
+
+            return count;
+        }
 
         public List<T> GetWeightList()
         {
@@ -46,9 +56,10 @@ namespace RockProjectAPI.Domain.Repositories
             }
             catch (Exception ex)
             {
-                _logger.LogError("Repository: SaveWeights - Error: ", ex.Message);
+                _logger.LogError("Repository: SaveWeights - Error: " + ex.Message);
                 throw ex;
             }
         }
+
     }
 }

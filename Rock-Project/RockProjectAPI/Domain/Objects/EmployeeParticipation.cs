@@ -23,7 +23,7 @@ namespace RockProjectAPI.Domain.Objects
 
         public string CalculateParticipationValue(string salary, int occupationAreaWeight, int salaryWeight, int workYearsWeight)
         {
-            double convertedSalary = double.Parse(salary);
+            double convertedSalary = double.Parse(salary.Replace("R$ ", ""));
             double admissionTimeCalculate = convertedSalary * workYearsWeight;
             double occupationAreaCalculate = convertedSalary * occupationAreaWeight;
             double salaryCalculate = (admissionTimeCalculate + occupationAreaCalculate) / salaryWeight;

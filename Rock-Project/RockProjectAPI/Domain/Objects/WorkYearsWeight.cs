@@ -31,11 +31,14 @@ namespace RockProjectAPI.Domain.Objects
         {
             bool isYearIsInThisWeight = false;
 
-            if (year >= YearMin && year <= YearMax)
+            if (YearMin.Equals(YearMax))
+            {
+                isYearIsInThisWeight = year > YearMax;
+            }
+            else if (year >= YearMin && year <= YearMax)
             {
                 isYearIsInThisWeight = true;
             }
-
             return isYearIsInThisWeight;
         }
     }
