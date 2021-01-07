@@ -1,9 +1,5 @@
 ﻿using FluentAssertions;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Moq;
 using RockProjectAPI.Domain.Objects;
-using System;
 using Xunit;
 
 namespace UnitTests.Domain.Objects
@@ -47,6 +43,7 @@ namespace UnitTests.Domain.Objects
         [Fact]
         public void When_Try_To_Validate_Employee_And_Occupation_Area_Is_Empty_Return_False()
         {
+
             string id = "1234";
             string occupationArea = "";
             string name = "Joao";
@@ -98,14 +95,6 @@ namespace UnitTests.Domain.Objects
         [Fact]
         public void When_Try_To_Validate_Employee_And_Admission_Date_Is_Empty_Return_False()
         {
-            var serviceProvider = new ServiceCollection()
-                                    .AddLogging()
-                                    .BuildServiceProvider();
-
-            var factory = serviceProvider.GetService<ILoggerFactory>();
-
-            var logger = factory.CreateLogger<Employee>();
-
             string id = "1234";
             string occupationArea = "Diretoria";
             string name = "Joao";
@@ -113,14 +102,24 @@ namespace UnitTests.Domain.Objects
             string admissionDate = "";
             string salary = "R$ 10.000,00";
 
-            Employee employee = new Employee(logger);
+            Employee employee = new Employee(id, occupationArea, name, position, admissionDate, salary);
 
-            employee.Id = id;
-            employee.Area = occupationArea;
-            employee.Name = name;
-            employee.Position = position;
-            employee.AdmissionDate = admissionDate;
-            employee.Salary = salary;
+            bool isValidEmployee = employee.IsValidEmployee();
+
+            isValidEmployee.Should().BeFalse();
+        }
+
+        [Fact]
+        public void When_Try_To_Validate_Employee_And_Admission_Date_Is_Over_Than_Actual_Date_Return_False()
+        {
+            string id = "1234";
+            string occupationArea = "Diretoria";
+            string name = "Joao";
+            string position = "Diretor";
+            string admissionDate = "2021-06-01";
+            string salary = "R$ 10.000,00";
+
+            Employee employee = new Employee(id, occupationArea, name, position, admissionDate, salary);
 
             bool isValidEmployee = employee.IsValidEmployee();
 
@@ -130,14 +129,6 @@ namespace UnitTests.Domain.Objects
         [Fact]
         public void When_Try_To_Validate_Employee_And_Salary_Is_Empty_Return_False()
         {
-            var serviceProvider = new ServiceCollection()
-                                    .AddLogging()
-                                    .BuildServiceProvider();
-
-            var factory = serviceProvider.GetService<ILoggerFactory>();
-
-            var logger = factory.CreateLogger<Employee>();
-
             string id = "1234";
             string occupationArea = "Diretoria";
             string name = "Joao";
@@ -145,14 +136,24 @@ namespace UnitTests.Domain.Objects
             string admissionDate = "2020-12-20";
             string salary = "";
 
-            Employee employee = new Employee(logger);
+            Employee employee = new Employee(id, occupationArea, name, position, admissionDate, salary);
 
-            employee.Id = id;
-            employee.Area = occupationArea;
-            employee.Name = name;
-            employee.Position = position;
-            employee.AdmissionDate = admissionDate;
-            employee.Salary = salary;
+            bool isValidEmployee = employee.IsValidEmployee();
+
+            isValidEmployee.Should().BeFalse();
+        }
+
+        [Fact]
+        public void When_Try_To_Validate_Employee_And_Salary_Is_Negative_Return_False()
+        {
+            string id = "1234";
+            string occupationArea = "Diretoria";
+            string name = "Joao";
+            string position = "Diretor";
+            string admissionDate = "2020-12-20";
+            string salary = "-R$ 10.000,00";
+
+            Employee employee = new Employee(id, occupationArea, name, position, admissionDate, salary);
 
             bool isValidEmployee = employee.IsValidEmployee();
 

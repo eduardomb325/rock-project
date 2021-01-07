@@ -7,8 +7,6 @@ namespace RockProjectAPI.Domain.Objects
 {
     public class Employee : EmployeeBase
     {
-        private ILogger _logger;
-
         [Required]
         [JsonPropertyName("area")]
         public string Area { get; set; }
@@ -35,11 +33,6 @@ namespace RockProjectAPI.Domain.Objects
             Salary = salary;
         }
 
-        public Employee(ILogger<Employee> logger)
-        {
-            _logger = logger;
-        }
-
         public Employee()
         {
 
@@ -60,8 +53,6 @@ namespace RockProjectAPI.Domain.Objects
             }
             catch (Exception)
             {
-                _logger.LogError("Method: IsValidSalary - Error on Employee - " + Id + " on validate his admission date: " + AdmissionDate);
-
             }
 
             return isValidAdmissionDate;
@@ -100,10 +91,21 @@ namespace RockProjectAPI.Domain.Objects
             }
             catch (Exception)
             {
-                _logger.LogError("Method: IsValidSalary - Error on Employee - " + Id + " on validate his salary: " + Salary);
+                
             }
 
             return isValidSalary;
+        }
+
+        public override string ToString()
+        {
+            return string.Format(
+                "Id: {0} - " +
+                "Name: {1} - " +
+                "AdmissionDate {2} -" +
+                "Area: {3} - " +
+                "Position: {4} - " +
+                "Salary: {5}", Id, Name, AdmissionDate, Area, Position, Salary);
         }
     }
 }

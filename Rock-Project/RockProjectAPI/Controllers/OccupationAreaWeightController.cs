@@ -36,22 +36,5 @@ namespace RockProjectAPI.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError);
             }
         }
-
-        [HttpPost]
-        [Route("save/list")]
-        public IActionResult SaveListOccupationAreaWeightController(List<OccupationAreaWeight> occupationAreaWeightList)
-        {
-            try
-            {
-                List<OccupationAreaWeight> result = _weightService.SaveWeightList(occupationAreaWeightList);
-
-                return Ok(result);
-
-            }
-            catch (Exception)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError);
-            }
-        }
     }
 }

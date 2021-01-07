@@ -31,19 +31,24 @@ namespace RockProjectAPI.Domain.Services
 
         public EmployeeRegisterDTO SaveEmployeesService(List<Employee> employees)
         {
-            _logger.LogInformation("Service: GetEmployeesService - Start - Employees received: ", employees.Count());
+            _logger.LogInformation("Service: GetEmployeesService - Start - Employees received: " + employees.Count());
 
             EmployeeRegisterDTO employeeRegisterDTO = new EmployeeRegisterDTO();
 
-            foreach(Employee employee in employees)
+            foreach (Employee employee in employees)
             {
-               bool isValidEmployee = employee.IsValidEmployee();
+                bool isValidEmployee = employee.IsValidEmployee();
 
                 if (isValidEmployee)
                 {
+                    _logger.LogInformation("Service: GetEmployeesService - Employee: " + employee.ToString() + " is valid.");
+
                     employeeRegisterDTO.EmployeesRegistered.Add(employee);
-                } else
+                }
+                else
                 {
+                    _logger.LogInformation("Service: GetEmployeesService - Employee: " + employee.ToString() + " not is valid.");
+
                     employeeRegisterDTO.EmployeesNotRegistered.Add(employee);
                 }
             }
@@ -51,8 +56,10 @@ namespace RockProjectAPI.Domain.Services
 
             _employeeRepository.SaveEmployees(employeeRegisterDTO.EmployeesRegistered);
 
-            _logger.LogInformation("Service: GetEmployeesService - Finish - Employees saved: ", employeeRegisterDTO.EmployeesRegistered.Count());
+            _logger.LogInformation("Service: GetEmployeesService - Employees saved: " + employeeRegisterDTO.EmployeesRegistered.Count());
+            _logger.LogInformation("Service: GetEmployeesService - Employees not saved: " + employeeRegisterDTO.EmployeesNotRegistered.Count());
 
+            _logger.LogInformation("Service: GetEmployeesService - Finish ");
             return employeeRegisterDTO;
         }
     }
