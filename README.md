@@ -236,6 +236,8 @@ Onde:
 
 Profit é o nome dado para o cálculo de PLRs.
 
+O salário mínimo levado em consideração para os calculos foi de R$ 1088,00, e o mesmo pode ser alterado no appsettings (referenciado como MinimumSalary).
+
 #### /profit/get
 Rota responsável por listar todas as regras para métricas referentes a Tempo de Empresa.
 
