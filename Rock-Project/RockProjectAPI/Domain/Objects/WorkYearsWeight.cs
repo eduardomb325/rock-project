@@ -1,4 +1,5 @@
 ﻿using RockProjectAPI.Domain.Objects.Interfaces;
+using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace RockProjectAPI.Domain.Objects
@@ -27,11 +28,14 @@ namespace RockProjectAPI.Domain.Objects
         {
             bool isYearIsInThisWeight = false;
 
+            DateTime minimumYear = DateTime.Now.AddYears(-YearMin);
+            DateTime maximumYear = DateTime.Now.AddYears(-YearMax);
+
             if (YearMin.Equals(YearMax))
             {
                 isYearIsInThisWeight = year > YearMax;
             }
-            else if (year >= YearMin && year <= YearMax)
+            else if (year >= maximumYear.Year && year <= minimumYear.Year)
             {
                 isYearIsInThisWeight = true;
             }
